@@ -1,6 +1,6 @@
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
-import { Engine, Scene, ArcRotateCamera, Vector3, HemisphericLight, Mesh, MeshBuilder ,StandardMaterial, Color3} from "@babylonjs/core";
+import { Engine, Scene, ArcRotateCamera, Vector3, HemisphericLight, Mesh, MeshBuilder ,StandardMaterial, Color3, Texture,DeviceOrientationCamera} from "@babylonjs/core";
 import { Boule } from "./boule";
 import { Camera } from "./camera";
 
@@ -19,18 +19,22 @@ class App {
 
         //ground
         const ground = MeshBuilder.CreateGround("ground", {width:1000, height:1000});
-        ground.material = new StandardMaterial("redMaterial", scene);
-        (ground.material as StandardMaterial).diffuseColor = Color3.Green();
-        //camera + light
-        let camera=new Camera(canvas,scene);
-        var light1: HemisphericLight = new HemisphericLight("light1", new Vector3(1, 1, 0), scene);
+        const groundMaterial = new StandardMaterial("groundMaterial", scene);
+        groundMaterial.diffuseTexture = new Texture("textures/grass.jpg", scene);
+        groundMaterial.specularColor = new Color3(0, 1, 0);
+        groundMaterial.diffuseColor = new Color3(3.5, 0.5, 0.5);
+        ground.material = groundMaterial;
 
         //boule
         let b = new Boule();
-        b.createSphere(scene);
+        const sphere = b.createSphere(scene);
         b.MovingBoule(scene);
 
-
+        //camera + light
+        let camera = new Camera(canvas, scene);
+        camera.followBoule(sphere);
+        var light1: HemisphericLight = new HemisphericLight("light1", new Vector3(1, 1, 0), scene);
+        
         // hide/show the Inspector
         window.addEventListener("keydown", (ev) => {
             // Shift+Ctrl+Alt+I
