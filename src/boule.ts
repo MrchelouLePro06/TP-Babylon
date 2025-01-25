@@ -9,7 +9,7 @@ export class Boule{
     this.hauteur=5;
     var sphere = MeshBuilder.CreateSphere("sphere", { diameter: this.hauteur }, scene);
     sphere.material = new StandardMaterial("redMaterial", scene);
-    (sphere.material as StandardMaterial).diffuseColor = Color3.Red();
+    (sphere.material as StandardMaterial).diffuseColor = Color3.Blue();
     sphere.position.y=this.hauteur/2;
     sphere.position.x=0;
     sphere.metadata = { frontVector: new Vector3(0, 0, 1) };//permet de stocker des données dans l'objet "sphere"
@@ -37,10 +37,10 @@ export class Boule{
             if (sphere) {
                 const frontVector = sphere.metadata.frontVector;
                 if (inputMap["z"]) {
-                    sphere.moveWithCollisions(frontVector.multiplyByFloats(1, 1, 1));
+                    sphere.moveWithCollisions(frontVector.multiplyByFloats(2, 2, 2));
                 }
                 if (inputMap["s"]) {
-                    sphere.moveWithCollisions(frontVector.multiplyByFloats(-1, -1, -1));
+                    sphere.moveWithCollisions(frontVector.multiplyByFloats(-2, -2, -2));
                 }
                 if (inputMap["q"]) {
                     sphere.rotation.y -= 0.02;
