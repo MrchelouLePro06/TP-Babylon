@@ -30,8 +30,9 @@ class App {
         const sphere = b.createSphere(scene);
 
         //camera + light
-        let camera = new Camera(canvas, scene, b);
-        camera.followBoule(sphere);
+        let camera = new Camera(canvas, scene, sphere);
+        // scene.gravity = new Vector3(0, -9.81, 0);
+        // camera.applyGravity = true;
         var light1: HemisphericLight = new HemisphericLight("light1", new Vector3(1, 1, 0), scene);
         b.MovingBoule(scene);
         
