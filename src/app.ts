@@ -28,12 +28,12 @@ class App {
         //boule
         let b = new Boule();
         const sphere = b.createSphere(scene);
-        b.MovingBoule(scene);
 
         //camera + light
-        let camera = new Camera(canvas, scene);
+        let camera = new Camera(canvas, scene, b);
         camera.followBoule(sphere);
         var light1: HemisphericLight = new HemisphericLight("light1", new Vector3(1, 1, 0), scene);
+        b.MovingBoule(scene);
         
         // hide/show the Inspector
         window.addEventListener("keydown", (ev) => {

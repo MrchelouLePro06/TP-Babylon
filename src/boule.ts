@@ -14,7 +14,7 @@ export class Boule{
     return sphere;
     }
     
-    MovingBoule(scene: Scene, camera : Camera){
+    MovingBoule(scene: Scene){
         const inputMap: { [key: string]: boolean } = {};
         scene.actionManager = new ActionManager(scene);
 
@@ -30,16 +30,16 @@ export class Boule{
             const sphere = scene.getMeshByName("sphere");
             if (sphere) {
                 if (inputMap["z"]) {
-                    sphere.position.z -= 0.5;
-                }
-                if (inputMap["s"]) {
                     sphere.position.z += 0.5;
                 }
+                if (inputMap["s"]) {
+                    sphere.position.z -= 0.5;
+                }
                 if (inputMap["q"]) {
-                    sphere.position.x += 0.5;
+                    sphere.position.x -= 0.5;
                 }
                 if (inputMap["d"]) {
-                    sphere.position.x -= 0.5;
+                    sphere.position.x += 0.5;
                 }
             }
         });
