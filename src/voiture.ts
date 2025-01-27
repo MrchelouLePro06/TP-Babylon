@@ -22,7 +22,6 @@ export class Voiture{
                 importedMesh.scaling = new Vector3(10, 10, 10);  // Augmentez l'échelle pour agrandir la voiture
                 importedMesh.rotation = new Vector3(0, 0, 0); // Ajuste la rotation si nécessaire
                 importedMesh.metadata = { frontVector: new Vector3(0, 0, 1) };
-                console.log("Objet 3D importé avec succès !");
                 callback(importedMesh);
             }
         );
@@ -57,5 +56,13 @@ export class Voiture{
                 voiture.metadata.frontVector = new Vector3(Math.sin(voiture.rotation.y), 0, Math.cos(voiture.rotation.y));
             }
         });
+    }
+
+    hide(voiture) {
+        voiture.scaling = new Vector3(-10, -10, -10);
+    }
+
+    show(voiture) {
+        voiture.scaling = new Vector3(10, 10, 10);
     }
 }

@@ -20,7 +20,7 @@ export class Boule{
         let isJumping = false;
         let jumpStartTime = 0;
         const jumpDuration = 1000;
-        const jumpHeight = 15;
+        const jumpHeight = 20;
         const inputMap: { [key: string]: boolean } = {};
         scene.actionManager = new ActionManager(scene);
 
@@ -43,11 +43,11 @@ export class Boule{
                     sphere.moveWithCollisions(frontVector.multiplyByFloats(-2, -2, -2));
                 }
                 if (inputMap["q"]) {
-                    sphere.rotation.y -= 0.02;
+                    sphere.rotation.y -= 0.05;
                     sphere.metadata.frontVector = new Vector3(Math.sin(sphere.rotation.y), 0, Math.cos(sphere.rotation.y));
                 }
                 if (inputMap["d"]) {
-                    sphere.rotation.y += 0.02;
+                    sphere.rotation.y += 0.05;
                     sphere.metadata.frontVector = new Vector3(Math.sin(sphere.rotation.y), 0, Math.cos(sphere.rotation.y));
                 }
                 if (inputMap[" "] && !isJumping) {

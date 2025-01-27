@@ -6,6 +6,13 @@ import { Camera } from "./camera";
 import { Boule } from "./boule";
 
 class App {
+    private currentObject: any;
+    private camera: Camera;
+    private voiture: Voiture;
+    private boule: Boule;
+    private importedMesh: any;
+    private sphere: any;
+
     constructor() {
         // create the canvas html element and attach it to the webpage
         var canvas = document.createElement("canvas");
@@ -26,28 +33,25 @@ class App {
         groundMaterial.diffuseColor = new Color3(3.5, 0.5, 0.5);
         ground.material = groundMaterial;
 
-        //2 lights 2 methods
+        // 2 lights 2 methods
         var light1: HemisphericLight = new HemisphericLight("light1", new Vector3(1, 1, 0), scene);
         const directionalLight = new DirectionalLight("dirLight", new Vector3(0, -1, 0), scene);
         directionalLight.intensity = 1;
 
-        /*
-        // voiture
-        let v = new Voiture();
-        v.loadOBJ(scene, (importedMesh) => {
-            // camera + light
-            let camera = new Camera(canvas, scene, importedMesh);
-            v.MovingVoiture(scene, importedMesh);
-        });
-        */
-       
         // boule
-        let b = new Boule();
-        const sphere = b.createSphere(scene);
-        let camera = new Camera(canvas, scene, sphere);
-        // scene.gravity = new Vector3(0, -9.81, 0);
-        // camera.applyGravity = true;
-        b.MovingBoule(scene);
+        this.boule = new Boule();
+        this.sphere = this.boule.createSphere(scene);
+        this.currentObject = this.sphere;
+        this.boule.MovingBoule(scene);
+        this.camera = new Camera(canvas, scene, this.sphere);
+
+        // voiture
+        this.voiture = new Voiture();
+        this.voiture.loadOBJ(scene, (importedMesh) => {
+            this.importedMesh = importedMesh;
+            //this.voiture.MovingVoiture(scene, importedMesh);
+            this.importedMesh.setEnabled(false);
+        });
 
         // hide/show the Inspector
         window.addEventListener("keydown", (ev) => {
@@ -59,9 +63,22 @@ class App {
                     scene.debugLayer.show();
                 }
             }
+            if (ev.key === 'e' || ev.key === 'E') {
+                if (this.currentObject === this.sphere) {
+                    this.sphere.setEnabled(false);
+                    this.importedMesh.setEnabled(true);
+                    this.currentObject = this.importedMesh;
+                    this.voiture.MovingVoiture(scene, this.importedMesh);
+                } else {
+                    this.importedMesh.setEnabled(false);
+                    this.sphere.setEnabled(true);
+                    this.currentObject = this.sphere;
+                    this.boule.MovingBoule(scene);
+                }
+                this.camera = new Camera(canvas, scene, this.currentObject);
+            }
         });
 
-        // run the main render loop
         engine.runRenderLoop(() => {
             scene.render();
         });
