@@ -63,16 +63,18 @@ class App {
                     scene.debugLayer.show();
                 }
             }
-            if (ev.key === 'e' || ev.key === 'E') {
-                if (this.currentObject === this.sphere) {
+            if (ev.key === 'm' || ev.key === 'E') {
+                if (this.currentObject === this.sphere) {//on passe de la boule à la voiture
                     this.sphere.setEnabled(false);
                     this.importedMesh.setEnabled(true);
                     this.currentObject = this.importedMesh;
+                    //this.voiture.resetMouvement(this.voiture);
                     this.voiture.MovingVoiture(scene, this.importedMesh);
                 } else {
                     this.importedMesh.setEnabled(false);
                     this.sphere.setEnabled(true);
                     this.currentObject = this.sphere;
+                    //this.boule.resetMouvement(this.boule);
                     this.boule.MovingBoule(scene);
                 }
                 this.camera = new Camera(canvas, scene, this.currentObject);

@@ -42,17 +42,17 @@ export class Voiture{
         scene.registerBeforeRender(() => {
             const frontVector = voiture.metadata.frontVector;
             if (inputMap["z"]) {
-                voiture.moveWithCollisions(frontVector.multiplyByFloats(2, 2, 2)); // Augmentez la vitesse
+                voiture.moveWithCollisions(frontVector.multiplyByFloats(1, 1, 1)); // Augmentez la vitesse
             }
             if (inputMap["s"]) {
-                voiture.moveWithCollisions(frontVector.multiplyByFloats(-2, -2, -2)); // Augmentez la vitesse
+                voiture.moveWithCollisions(frontVector.multiplyByFloats(-1, -1, -1)); // Augmentez la vitesse
             }
             if (inputMap["q"]) {
-                voiture.rotation.y -= 0.04; // Augmentez la vitesse de rotation
+                voiture.rotation.y -= 0.02; // Augmentez la vitesse de rotation
                 voiture.metadata.frontVector = new Vector3(Math.sin(voiture.rotation.y), 0, Math.cos(voiture.rotation.y));
             }
             if (inputMap["d"]) {
-                voiture.rotation.y += 0.04; // Augmentez la vitesse de rotation
+                voiture.rotation.y += 0.02; // Augmentez la vitesse de rotation
                 voiture.metadata.frontVector = new Vector3(Math.sin(voiture.rotation.y), 0, Math.cos(voiture.rotation.y));
             }
         });
@@ -64,5 +64,9 @@ export class Voiture{
 
     show(voiture) {
         voiture.scaling = new Vector3(10, 10, 10);
+    }
+
+    resetMouvement(voiture) {
+        voiture.metadata.frontVector = new Vector3(0, 0, 0);
     }
 }

@@ -12,6 +12,7 @@ export class Camera {
         this.camera.cameraAcceleration = .1;
         scene.activeCamera = this.camera;
         this.camera.attachControl(canvas);
+        this.camera.lockedTarget = obj;
     }
     setPosCamera(x: number) {
         this.camera.rotationOffset += x;

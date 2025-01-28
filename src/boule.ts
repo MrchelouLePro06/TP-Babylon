@@ -37,17 +37,17 @@ export class Boule{
             if (sphere) {
                 const frontVector = sphere.metadata.frontVector;
                 if (inputMap["z"]) {
-                    sphere.moveWithCollisions(frontVector.multiplyByFloats(2, 2, 2));
+                    sphere.moveWithCollisions(frontVector.multiplyByFloats(1, 1, 1));
                 }
                 if (inputMap["s"]) {
-                    sphere.moveWithCollisions(frontVector.multiplyByFloats(-2, -2, -2));
+                    sphere.moveWithCollisions(frontVector.multiplyByFloats(-1, -1, -1));
                 }
                 if (inputMap["q"]) {
-                    sphere.rotation.y -= 0.05;
+                    sphere.rotation.y -= 0.02;
                     sphere.metadata.frontVector = new Vector3(Math.sin(sphere.rotation.y), 0, Math.cos(sphere.rotation.y));
                 }
                 if (inputMap["d"]) {
-                    sphere.rotation.y += 0.05;
+                    sphere.rotation.y += 0.02;
                     sphere.metadata.frontVector = new Vector3(Math.sin(sphere.rotation.y), 0, Math.cos(sphere.rotation.y));
                 }
                 if (inputMap[" "] && !isJumping) {
@@ -66,5 +66,8 @@ export class Boule{
                 }
             }
         });
+    }
+    resetMouvement(sphere) {
+        sphere.metadata.frontVector = new Vector3(0, 0, 0);
     }
 }
