@@ -4,6 +4,7 @@ import { Engine, Scene, Vector3, HemisphericLight, DirectionalLight, MeshBuilder
 import { Voiture } from "./voiture";
 import { Camera } from "./camera";
 import { Boule } from "./boule";
+import { Player } from "./Player";
 
 class App {
     private currentObject: any;
@@ -12,6 +13,7 @@ class App {
     private boule: Boule;
     private importedMesh: any;
     private sphere: any;
+    private player: Player;
 
     constructor() {
         // create the canvas html element and attach it to the webpage
@@ -38,19 +40,31 @@ class App {
         const directionalLight = new DirectionalLight("dirLight", new Vector3(0, -1, 0), scene);
         directionalLight.intensity = 1;
 
+        
         // boule
         this.boule = new Boule();
         this.sphere = this.boule.createSphere(scene);
         this.currentObject = this.sphere;
         this.boule.MovingBoule(scene);
+        
         this.camera = new Camera(canvas, scene, this.sphere);
-
+        /*
         // voiture
         this.voiture = new Voiture();
         this.voiture.loadOBJ(scene, (importedMesh) => {
             this.importedMesh = importedMesh;
             //this.voiture.MovingVoiture(scene, importedMesh);
             this.importedMesh.setEnabled(false);
+        });
+        */
+
+        // player
+        this.player = new Player(scene, (importedMesh) => {
+            this.importedMesh = importedMesh;
+            this.importedMesh.setEnabled(true);
+            this.currentObject = this.importedMesh;
+            this.camera = new Camera(canvas, scene, this.importedMesh);
+            this.player.Moving(scene, this.importedMesh);
         });
 
         // hide/show the Inspector
@@ -63,6 +77,7 @@ class App {
                     scene.debugLayer.show();
                 }
             }
+            /*
             if (ev.key === 'm' || ev.key === 'E') {
                 if (this.currentObject === this.sphere) {//on passe de la boule à la voiture
                     this.sphere.setEnabled(false);
@@ -79,6 +94,20 @@ class App {
                 }
                 this.camera = new Camera(canvas, scene, this.currentObject);
             }
+            if (ev.key === 'p') {
+                if (this.currentObject === this.sphere) {
+                    this.sphere.setEnabled(false);
+                    this.importedMesh.setEnabled(true);
+                    this.currentObject = this.importedMesh;
+                    this.player.Moving(scene, this.importedMesh);
+                } else {
+                    this.importedMesh.setEnabled(false);
+                    this.sphere.setEnabled(true);
+                    this.currentObject = this.sphere;
+                }
+                this.camera = new Camera(canvas, scene, this.currentObject);
+            }
+                */
         });
 
         engine.runRenderLoop(() => {
