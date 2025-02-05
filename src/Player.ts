@@ -5,11 +5,11 @@ import { SceneLoader, Vector3, AnimationGroup, ActionManager, ExecuteCodeAction 
 export class Player {
     private movementVector: Vector3;
     private isMoving: boolean;
-    private animationGroup: AnimationGroup;
+    private animationGroup: AnimationGroup[];
 
     constructor(scene, callback) {
         const objPath = "models/";
-        const objFile = "human.glb";
+        const objFile = "finaleSinj.glb";
         this.movementVector = new Vector3(0, 0, 0);
         this.isMoving = false;
 
@@ -24,7 +24,7 @@ export class Player {
                 importedMesh.scaling = new Vector3(10, 10, 10);  // Augmentez l'échelle pour agrandir le personnage
                 importedMesh.rotation = new Vector3(0, 0, 0); // Ajuste la rotation si nécessaire
                 importedMesh.metadata = { frontVector: new Vector3(0, 0, 1) };
-                this.animationGroup = animationGroups[0]; // Supposons qu'il y a une seule animation
+                this.animationGroup = animationGroups;
                 callback(importedMesh);
             }
         );
@@ -64,16 +64,31 @@ export class Player {
                 player.metadata.frontVector = new Vector3(Math.sin(player.rotation.y), 0, Math.cos(player.rotation.y));
                 this.isMoving = true;
             }
-
+            
             if (this.isMoving) {
-                if (this.animationGroup && !this.animationGroup.isPlaying) {
-                    this.animationGroup.start(true);
+                if (!this.animationGroup[0].isPlaying && !this.animationGroup[0].isPlaying) { // Courir
+                    this.stopAllAnimations();
+                    this.animationGroup[0].start(true);
+                    
                 }
-            } else {
-                if (this.animationGroup && this.animationGroup.isPlaying) {
-                    this.animationGroup.stop();
-                }
+            } 
+            
+            else if (inputMap[" "]) {
+                this.stopAllAnimations();
+                this.animationGroup[1].start(false);
+            } 
+            
+            else {
+                this.stopAllAnimations();
+                this.animationGroup[2].start(true);
             }
         });
     }
+    stopAllAnimations() {
+        this.animationGroup.forEach((group: AnimationGroup) => {
+            if (group.isPlaying) {
+                group.stop();
+            }
+        });
+    }    
 }
